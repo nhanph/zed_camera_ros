@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<launch>
+  <node pkg="zed_camera_ros" type="zed_camera_ros" name="zed_camera_ros" >
+
+  	<param name="frame_rate" type="int" value="20" />
+
+  	<!-- Resolution settings:
+  	0: 640 x 360
+  	1: 960 x 540
+  	2: 1280 x 720		
+  	-->
+  	<param name="resolution" type="int" value="0" />
+
+  	</node>
+
+</launch>
+
