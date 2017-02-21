@@ -22,9 +22,9 @@ int main(int argc, char** argv)
   ros::NodeHandle nh;
   image_transport::ImageTransport it(nh);
   image_transport::CameraPublisher left_pub =
-    it.advertiseCamera("/zed/left/image_raw", 100);
+    it.advertiseCamera("/zed/left/image_raw", 1);
   image_transport::CameraPublisher right_pub =
-    it.advertiseCamera("/zed/right/image_raw", 100);
+    it.advertiseCamera("/zed/right/image_raw", 1);
 
   camera_info_manager::CameraInfoManager left_cam_info(nh, "zed/left");
   camera_info_manager::CameraInfoManager right_cam_info(nh, "zed/right");
@@ -103,9 +103,9 @@ int main(int argc, char** argv)
   cv::Mat frame, tmp_frame, left_frame, right_frame, gray, gray_rs;
   sensor_msgs::ImagePtr left_msg, right_msg, left_rs_msg, right_rs_msg;
   // Setup frames
-  cil->header.frame_id = "/camera0";
+  cil->header.frame_id = "/zed_left";
   cil->header.stamp = ros::Time::now();
-  cir->header.frame_id = "/camera1";
+  cir->header.frame_id = "/zed_right";
   cir->header.stamp = ros::Time::now();
 
   int cnt = 0;
@@ -142,13 +142,13 @@ int main(int argc, char** argv)
         right_msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", right_frame)
           .toImageMsg();
 
-        left_msg->header.frame_id = "/camera0";
+        left_msg->header.frame_id = "/zed_left";
         left_msg->header.stamp = ros::Time::now();
-        cil->header.frame_id = "/camera0";
+        cil->header.frame_id = "/zed_left";
         cil->header.stamp = left_msg->header.stamp;
-        right_msg->header.frame_id = "/camera1";
+        right_msg->header.frame_id = "/zed_right";
         right_msg->header.stamp = left_msg->header.stamp;
-        cir->header.frame_id = "/camera1";
+        cir->header.frame_id = "/zed_right";
         cir->header.stamp = left_msg->header.stamp;
 
         left_pub.publish(left_msg, cil);
